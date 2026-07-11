@@ -43,19 +43,15 @@ export interface PricingStrategy {
 
 const normalize = (value: string): string => value.trim().toLowerCase();
 
-/** How many dimensions of the SKU explicitly matched the input. */
-function specificity(price: PerSecondPrice): number {
-  let score = 0;
-  if (price.resolution !== null) score += 1;
-  if (price.audio !== null) score += 1;
-  if (price.mode !== null) score += 1;
-  return score;
-}
-
 /**
  * The most specific per-second SKUs that apply to the input. A SKU applies
- * when every dimension it constrains matches the input; among applicable
- * SKUs the most specific ones win. Empty = no published price applies.
+ * when every dimension it constrains matches the input; a dimension the
+ * input leaves unset never disqualifies an SKU — it stays applicable and
+ * surfaces as ambiguity ("needs-resolution"), not as a missing price.
+ * Specificity counts only dimensions the input actually pins down, so an
+ * SKU constraining an unset dimension (a 1080p surcharge before any
+ * resolution is chosen) cannot silently shadow a flat price and later
+ * surprise the user. Empty = no published price applies.
  */
 function matchingPerSecondSkus(
   perSecond: readonly PerSecondPrice[],
@@ -64,9 +60,9 @@ function matchingPerSecondSkus(
   const applicable = perSecond.filter((price) => {
     if (
       price.resolution !== null &&
-      (resolution === null ||
-        resolution === undefined ||
-        normalize(resolution) !== price.resolution)
+      resolution !== null &&
+      resolution !== undefined &&
+      normalize(resolution) !== price.resolution
     ) {
       return false;
     }
@@ -85,8 +81,16 @@ function matchingPerSecondSkus(
   });
 
   if (applicable.length === 0) return [];
-  const best = Math.max(...applicable.map(specificity));
-  return applicable.filter((price) => specificity(price) === best);
+
+  const pinnedSpecificity = (price: PerSecondPrice): number => {
+    let score = 0;
+    if (price.resolution !== null && resolution !== null && resolution !== undefined) score += 1;
+    if (price.audio !== null && generateAudio !== null && generateAudio !== undefined) score += 1;
+    if (price.mode !== null && mode !== null && mode !== undefined) score += 1;
+    return score;
+  };
+  const best = Math.max(...applicable.map(pinnedSpecificity));
+  return applicable.filter((price) => pinnedSpecificity(price) === best);
 }
 
 /**

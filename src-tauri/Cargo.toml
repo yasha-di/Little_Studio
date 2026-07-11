@@ -1,6 +1,6 @@
 [package]
 name = "little-studio"
-version = "0.31.1"
+version = "0.31.2"
 description = "Little Studio — a modern desktop application for AI video generation"
 authors = ["Little Studio"]
 license = "MIT"

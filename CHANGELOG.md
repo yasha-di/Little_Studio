@@ -5,6 +5,24 @@ All notable changes to Little Studio are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.31.2 Beta — 2026-07-11
+
+Pricing-transparency fix pass ahead of external beta testing.
+
+### Fixed
+
+- **No more price jumps after picking a resolution.** When a model prices
+  per resolution and none is selected yet, the estimate now honestly says
+  "the price depends on resolution — pick one" instead of either claiming
+  "no published price matches the selected format" (models with only
+  per-resolution prices) or silently showing a flat base price that jumped
+  the moment a surcharged resolution (e.g. 1080p) was chosen. An SKU that
+  constrains a dimension the user has not set yet is now treated as an
+  ambiguous candidate, never as a mismatch and never as the resolved price.
+- The exact price-per-second row and the per-option selector prices follow
+  the same corrected rules, so the Inspector, the status bar and the
+  dropdown hints can never disagree.
+
 ## v0.31.1 Beta — 2026-07-11
 
 First public beta.

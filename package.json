@@ -1,7 +1,7 @@
 {
   "name": "little-studio",
   "private": true,
-  "version": "0.31.1",
+  "version": "0.31.2",
   "description": "Creative AI video workspace — a modern desktop application for AI video generation.",
   "type": "module",
   "scripts": {
