@@ -1,0 +1,46 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+
+# Tauri
+src-tauri/target
+src-tauri/gen/schemas
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Local agent config — contains machine-specific absolute paths
+.claude/
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Misc
+*.tsbuildinfo
+*.tmp
+
+# Python (never part of the app; guards against strays from the parent folder)
+__pycache__/
+*.pyc

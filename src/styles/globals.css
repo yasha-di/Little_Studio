@@ -1,0 +1,249 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ---------------------------------------------------------------------------
+ * Little Studio — Design Tokens
+ *
+ * Dark-only theme. Tokens follow the shadcn/ui naming contract so any
+ * shadcn component can be dropped in without restyling, extended with
+ * app-specific surfaces (sidebar, topbar, panel).
+ *
+ * Palette philosophy (Linear / Cursor / Raycast / Vercel):
+ *  - near-black, slightly cool neutrals — never pure #000
+ *  - hairline borders from white alpha, not gray steps
+ *  - one restrained indigo accent, used sparingly
+ * ------------------------------------------------------------------------ */
+
+:root {
+  --background: oklch(0.145 0.004 285.8);
+  --foreground: oklch(0.93 0.003 285.8);
+
+  --card: oklch(0.18 0.004 285.8);
+  --card-foreground: oklch(0.93 0.003 285.8);
+
+  --popover: oklch(0.205 0.005 285.8);
+  --popover-foreground: oklch(0.93 0.003 285.8);
+
+  --primary: oklch(0.585 0.145 276.9);
+  --primary-foreground: oklch(0.98 0.003 285.8);
+
+  --secondary: oklch(0.24 0.005 285.8);
+  --secondary-foreground: oklch(0.92 0.003 285.8);
+
+  --muted: oklch(0.21 0.005 285.8);
+  --muted-foreground: oklch(0.65 0.008 285.8);
+
+  --accent: oklch(0.23 0.006 285.8);
+  --accent-foreground: oklch(0.95 0.003 285.8);
+
+  --destructive: oklch(0.577 0.215 27.3);
+  --destructive-foreground: oklch(0.98 0.003 285.8);
+
+  --success: oklch(0.72 0.17 150);
+  --warning: oklch(0.8 0.16 84);
+
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.585 0.145 276.9);
+
+  --sidebar: oklch(0.165 0.004 285.8);
+  --sidebar-foreground: oklch(0.75 0.006 285.8);
+  --sidebar-accent: oklch(0.22 0.006 285.8);
+  --sidebar-accent-foreground: oklch(0.95 0.003 285.8);
+  --sidebar-border: oklch(1 0 0 / 6%);
+
+  --topbar: oklch(0.155 0.004 285.8);
+
+  --radius: 0.5rem;
+
+  /* Elevation ladder. Every raised surface pairs a soft drop shadow with a
+   * 1px inner top highlight — light "catches" the upper edge, which is what
+   * separates layered dark UI (Linear, Raycast) from flat grey panels. */
+  --surface-highlight: inset 0 1px 0 0 oklch(1 0 0 / 4%);
+  --surface-highlight-strong: inset 0 1px 0 0 oklch(1 0 0 / 12%);
+  --shadow-raised: var(--surface-highlight), 0 1px 2px 0 oklch(0 0 0 / 25%);
+  --shadow-overlay:
+    var(--surface-highlight), 0 4px 12px -2px oklch(0 0 0 / 35%),
+    0 12px 32px -8px oklch(0 0 0 / 45%);
+  --shadow-modal:
+    var(--surface-highlight), 0 16px 48px -8px oklch(0 0 0 / 55%),
+    0 32px 96px -16px oklch(0 0 0 / 45%);
+
+  /* App chrome bars (top bar, workspace header) cast a whisper of depth
+   * onto the content below them. */
+  --shadow-bar: 0 1px 2px 0 oklch(0 0 0 / 20%);
+
+  /* Filled action buttons: a strong top highlight plus a faint accent halo.
+   * The hover step only turns the halo up — motion stays in light, not size. */
+  --shadow-btn-primary:
+    var(--surface-highlight-strong), 0 1px 2px 0 oklch(0 0 0 / 30%),
+    0 0 16px -4px oklch(0.585 0.145 276.9 / 45%);
+  --shadow-btn-primary-hover:
+    var(--surface-highlight-strong), 0 1px 3px 0 oklch(0 0 0 / 35%),
+    0 0 24px -4px oklch(0.585 0.145 276.9 / 65%);
+
+  /* Selection glow: the one way "currently selected" reads across the app
+   * (version chips, model cards) — a hairline accent ring with a soft halo. */
+  --shadow-glow-primary:
+    0 0 0 1px oklch(0.585 0.145 276.9 / 30%), 0 0 14px -2px oklch(0.585 0.145 276.9 / 35%);
+
+  /* Brand identity gradient: indigo flowing into violet — the signature of
+   * Little Studio. Reserved for identity moments: primary actions, the
+   * wordmark, the launch screen. Never used on passive surfaces. */
+  --gradient-brand: linear-gradient(135deg, oklch(0.585 0.145 276.9), oklch(0.62 0.15 308));
+
+  /* Primary button fill: the brand gradient under a top light — buttons are
+   * lit brand objects, not colored rectangles. */
+  --gradient-btn-primary:
+    linear-gradient(oklch(1 0 0 / 14%), oklch(1 0 0 / 0%) 55%),
+    linear-gradient(135deg, oklch(0.585 0.145 276.9), oklch(0.6 0.15 302));
+}
+
+@theme {
+  /* Sub-body type steps for metadata and chips. Replaces ad-hoc text-[11px]
+   * and text-[10px]: quiet, tight, consistent everywhere. */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+  --text-3xs: 0.625rem;
+  --text-3xs--line-height: 0.875rem;
+
+  /* Alpha-white surface ladder for fills layered on dark panels.
+   * Higher step = closer to the viewer. Replaces ad-hoc bg-white/[0.0X]. */
+  --color-surface-1: oklch(1 0 0 / 2%);
+  --color-surface-2: oklch(1 0 0 / 3%);
+  --color-surface-3: oklch(1 0 0 / 4%);
+  --color-surface-4: oklch(1 0 0 / 6%);
+
+  /* Hairline that answers hover — one step brighter than --border. */
+  --color-border-strong: oklch(1 0 0 / 15%);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+
+  --color-topbar: var(--topbar);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-raised: var(--shadow-raised);
+  --shadow-overlay: var(--shadow-overlay);
+  --shadow-modal: var(--shadow-modal);
+  --shadow-bar: var(--shadow-bar);
+  --shadow-btn-primary: var(--shadow-btn-primary);
+  --shadow-btn-primary-hover: var(--shadow-btn-primary-hover);
+  --shadow-glow-primary: var(--shadow-glow-primary);
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    font-feature-settings:
+      "cv11" 1,
+      "ss01" 1;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior: none;
+  }
+
+  /* Desktop shell: the window itself never scrolls, only panels do. */
+  html,
+  body,
+  #root {
+    @apply h-full overflow-hidden;
+  }
+
+  /* Ambient depth: a barely-there wash of the accent hue bleeding down from
+   * the top of the window, answered by an even fainter violet from the
+   * bottom corner. Pages are transparent, so the glow reads through content
+   * areas and keeps large dark surfaces from looking flat. */
+  #root {
+    background-image:
+      radial-gradient(1100px 480px at 50% -140px, oklch(0.585 0.145 276.9 / 5%), transparent 70%),
+      radial-gradient(900px 600px at 88% 112%, oklch(0.55 0.12 315 / 3%), transparent 70%);
+  }
+
+  /* Subtle, Linear-style scrollbars. */
+  ::-webkit-scrollbar {
+    @apply size-2;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-white/10;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-white/20;
+  }
+
+  ::selection {
+    @apply bg-primary/30;
+  }
+
+  /* Motion is an enhancement, never a requirement. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* App chrome (sidebar, topbar) should feel native: not selectable. */
+  .app-chrome {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
