@@ -10,7 +10,7 @@ continue. Generation runs through the [OpenRouter](https://openrouter.ai)
 video API, so one key gives you the current frontier models (Veo, Kling,
 Seedance, Sora, Wan and more) with live, transparent pricing.
 
-> **Status: Beta (v0.31.1).** The full creative loop is live end-to-end.
+> **Status: Beta (v0.31.2).** The full creative loop is live end-to-end.
 > Expect rough edges; feedback is very welcome.
 
 ## Features
@@ -62,8 +62,8 @@ Grab the installer for your platform from the
 
 | Platform | Artifact                                              |
 | -------- | ----------------------------------------------------- |
-| Windows  | `Little Studio_0.31.1_x64-setup.exe` (NSIS) or `.msi` |
-| macOS    | `Little Studio_0.31.1_aarch64.dmg` / `.app`           |
+| Windows  | `Little Studio_0.31.2_x64-setup.exe` (NSIS) or `.msi` |
+| macOS    | `Little Studio_0.31.2_aarch64.dmg` (Apple Silicon) or `_x64.dmg` (Intel) |
 
 Then:
 
